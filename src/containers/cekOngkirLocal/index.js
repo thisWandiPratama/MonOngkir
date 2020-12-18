@@ -30,6 +30,7 @@ const Tracking = ({navigation}) => {
   const [modalKecamatan, setModalKecamatan] = useState (false);
   const [modalKotaTujuan, setModalKotaTujuan] = useState (false);
   const [modalKecamatanTujuan, setModalKecamatanTujuan] = useState (false);
+  const [berat, setBerat] = useState()
 
   useEffect (() => {
     getKota ();
@@ -321,10 +322,14 @@ const Tracking = ({navigation}) => {
           </View>
           <View style={styles.boxList}>
             <Text style={styles.title}>Berat(g)</Text>
-            <TextInput placeholder="Masukan No.Resi" style={styles.input} />
+            <TextInput 
+            placeholder="Masukan Berat Paket"
+            onChangeText={(value) => setBerat(value)} 
+            style={styles.input}
+             />
           </View>
           <View style={styles.boxList}>
-            <Text style={styles.title}>Kuris</Text>
+            <Text style={styles.title}>Kurir</Text>
             <TextInput placeholder="Masukan No.Resi" style={styles.input} />
           </View>
         </View>
