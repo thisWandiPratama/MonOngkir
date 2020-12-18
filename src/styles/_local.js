@@ -58,6 +58,39 @@ const styles = StyleSheet.create ({
   titleBtn : {
     fontSize: 15,
     fontWeight:'bold'
+  },
+  listOrigin : {
+    fontSize: 18,
+    fontWeight:'bold',
+    color : '#fff'
+  },
+  boxItem : {
+    borderBottomWidth: 1,
+    borderBottomColor : 'rgba(255,255,255,0.5)'
+  },
+
+  // modal
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    height: '90%',
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+    paddingTop : 10,
+    fontSize : 20,
+    fontWeight : 'bold'
   }
 });
 

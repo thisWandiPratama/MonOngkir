@@ -1,21 +1,64 @@
 //import liraries
-import React, {useState} from 'react';
-import {View, Text, TextInput} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Modal,
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native';
 import {styles} from '../../styles/_local';
 import Header from '../../components/hedear';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 // create a component
 const Tracking = ({navigation}) => {
   const [kategori, setKategori] = useState ('kota');
+  const [kategoriList, setKategoriList] = useState ('');
+  const [kategoriID, setKategoriID] = useState ('kota');
+  const [allKategori, setAllKategori] = useState ([]);
+  const [modalVisible, setModalVisible] = useState (false);
+
+  useEffect (() => {
+    getKota ();
+  }, []);
 
   const onPress = () => {
     navigation.goBack ();
     console.log ('Res');
   };
 
+  const getKota = () => {
+    fetch ('https://api.rajaongkir.sipondok.com/v1/kota')
+      .then (result => result.json ())
+      .then (result => {
+        setAllKategori (result);
+        setKategoriList (result[0].city_name);
+        setKategoriID (result[0].city_id);
+        console.log (result);
+      })
+      .catch (error => console.log (error));
+  };
+
   return (
     <View style={styles.container}>
+      <Modal animationType="slide" transparent={true} visible={modalVisible}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>
+              Pilih {kategori === 'kota' ? 'Kota' : 'Kecamatan'} Anda
+            </Text>
+
+            <TouchableHighlight
+              onPress={() => {
+                setModalVisible (!modalVisible);
+              }}
+            >
+             <Text style={{color : '#000'}} >Cancel</Text>
+            </TouchableHighlight>
+          </View>
+        </View>
+      </Modal>
       <Header onPress={onPress} title="Rates Local" />
       <View style={styles.boxContainer}>
         <View style={styles.boxInput}>
@@ -23,15 +66,63 @@ const Tracking = ({navigation}) => {
             <View style={styles.boxOrigin}>
               <Text style={styles.title}>Origin</Text>
               <View style={styles.kategori}>
-                <TouchableOpacity style={[styles.kota,{backgroundColor: kategori==='kota' ? '#17941d' : '#dfe0df'}]}>
-                  <Text style={[styles.titleBtn,{color: kategori==='kota' ? '#fff' : '#dfe0df'}]}>Kota</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    setKategori ('kota');
+                    getKota ();
+                  }}
+                  style={[
+                    styles.kota,
+                    {
+                      backgroundColor: kategori === 'kota'
+                        ? '#17941d'
+                        : '#dfe0df',
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.titleBtn,
+                      {color: kategori === 'kota' ? '#fff' : '#2f4858'},
+                    ]}
+                  >
+                    Kota
+                  </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.kecamatan, {backgroundColor: kategori==='kecamatan' ? '#17941d' : '#dfe0df'}]}>
-                  <Text style={styles.titleBtn}>Kecamatan</Text>
+                <TouchableOpacity
+                  onPress={() => setKategori ('kecamatan')}
+                  style={[
+                    styles.kecamatan,
+                    {
+                      backgroundColor: kategori === 'kecamatan'
+                        ? '#17941d'
+                        : '#dfe0df',
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.titleBtn,
+                      {color: kategori === 'kecamatan' ? '#fff' : '#2f4858'},
+                    ]}
+                  >
+                    Kecamatan
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
-            <Text style={styles.listOrigin}> Kota </Text>
+            <TouchableOpacity
+              onPress={() => setModalVisible (true)}
+              style={styles.boxItem}
+            >
+              <Text style={styles.listOrigin}>
+                {' '}
+                {kategoriList.length === 0
+                  ? 'Pilih Kota/Kecamatan'
+                  : kategoriList}
+                {' '}
+              </Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.boxList}>
             <Text style={styles.title}>Destination</Text>
