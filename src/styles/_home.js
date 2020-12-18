@@ -50,7 +50,7 @@ const styles = StyleSheet.create ({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop : 15
+    marginTop: 15,
   },
   boxMenu: {
     height: 75,
@@ -68,9 +68,8 @@ const styles = StyleSheet.create ({
     },
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
-
     elevation: 7,
-    borderRadius : 5
+    borderRadius: 5,
   },
   list: {
     alignItems: 'center',
@@ -78,9 +77,52 @@ const styles = StyleSheet.create ({
   },
   rateTitle: {
     textAlign: 'center',
-    fontSize : 12,
-    color : 'rgba(0,0,0,0.7)'
+    fontSize: 12,
+    color: 'rgba(0,0,0,0.7)',
   },
+  conKurs: {
+    margin: 20,
+    height: 100,
+    justifyContent: 'space-between',
+    paddingTop: 10,
+    paddingBottom: 20,
+  },
+  titleKurs: {
+    height: 30,
+    width: '60%',
+    backgroundColor: primer,
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
+    borderRadius : 5,
+    paddingLeft : 2
+  },
+  valueKurs: {
+    height: 30,
+    width: 80,
+    justifyContent: 'center',
+    backgroundColor: primer,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
+    borderRadius : 5,
+    paddingLeft : 2
+  },
+  kurs : {
+      color : '#fff',
+      fontWeight : 'bold'
+  }
 });
 
 export {styles};

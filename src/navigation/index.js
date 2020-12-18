@@ -3,8 +3,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Home from '../containers/home'
-import CekOngkir from '../containers/cekOngkir'
-
+import Local from '../containers/cekOngkirLocal'
+import Global from '../containers/cekOngkirGlobal'
+import Tracking from '../containers/tracking'
 
 const Stack = createStackNavigator()
 
@@ -13,7 +14,9 @@ const Stacks = () => {
         <NavigationContainer>
             <Stack.Navigator headerMode={false}>
                 <Stack.Screen name = "Home" component={Home}/>
-                <Stack.Screen name = "CekOngkir" component={CekOngkir}/>
+                <Stack.Screen name = "Local" component={Local}/>
+                <Stack.Screen name = "Global" component={Global}/>
+                <Stack.Screen name = "Tracking" component={Tracking}/>
             </Stack.Navigator>
         </NavigationContainer>
     )

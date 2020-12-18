@@ -1,12 +1,25 @@
 //import liraries
-import React, {Component} from 'react';
-import {View, Text, StatusBar, Image} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, StatusBar, Image, TouchableOpacity} from 'react-native';
 import {styles} from '../../styles/_home';
 import {primer} from '../../styles/_color';
 import {truck, tracking, rates} from '../../assets';
 
 // create a component
-const Home = () => {
+const Home = ({navigation}) => {
+    const [kurs, setKurs] = useState('')
+
+    useEffect(() => {
+        getKurs()
+    },[])
+
+    const getKurs = () => {
+        fetch('https://api.rajaongkir.sipondok.com/v1/kurs')
+        .then(result => result.json())
+        .then(result => setKurs(result.value))
+        
+    }
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={primer} />
@@ -25,25 +38,32 @@ const Home = () => {
       </View>
       <View style={styles.container}>
         <View style={styles.conContent}>
-          <View style={styles.boxMenu}>
+          <TouchableOpacity onPress={() => navigation.navigate('Tracking')} style={styles.boxMenu}>
             <View style={styles.list}>
               <Image source={{uri: tracking}} style={styles.icon} />
               <Text style={styles.rateTitle}>Tracking</Text>
             </View>
-          </View>
-          <View style={styles.boxMenu}>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Local')} style={styles.boxMenu}>
             <View style={styles.list}>
               <Image source={{uri: rates}} style={styles.icon} />
               <Text style={styles.rateTitle}>Rates Local</Text>
             </View>
-          </View>
+          </TouchableOpacity>
           <View style={styles.boxMenu}>
             <View style={styles.list}>
               <Image source={{uri: rates}} style={styles.icon} />
               <Text style={styles.rateTitle}>Rates Internasonal</Text>
             </View>
           </View>
-
+        </View>
+        <View style={styles.conKurs}>
+          <View style={styles.titleKurs}>
+            <Text style={styles.kurs}>Kurs Rupiah - USD(US Dolar)</Text>
+          </View>
+          <View style={styles.valueKurs}>
+            <Text style={styles.kurs}>$ {kurs}</Text>
+          </View>
         </View>
       </View>
     </View>
