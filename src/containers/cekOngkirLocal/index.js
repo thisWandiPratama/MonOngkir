@@ -7,6 +7,7 @@ import {
   Modal,
   TouchableHighlight,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {styles} from '../../styles/_local';
 import Header from '../../components/hedear';
@@ -40,6 +41,20 @@ const Tracking = ({navigation}) => {
       .catch (error => console.log (error));
   };
 
+  const renderListKota = () => {
+    return allKategori.map ((value, index) => {
+      return (
+        <TouchableOpacity onPress={() => {
+          setKategoriList(value.city_name)
+          setKategoriID(value.city_id)
+          setModalVisible(false)
+        }}>
+          <Text style={styles.namaKota}>{value.city_name}</Text>
+        </TouchableOpacity>
+      );
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Modal animationType="slide" transparent={true} visible={modalVisible}>
@@ -48,14 +63,19 @@ const Tracking = ({navigation}) => {
             <Text style={styles.modalText}>
               Pilih {kategori === 'kota' ? 'Kota' : 'Kecamatan'} Anda
             </Text>
-
             <TouchableHighlight
+              style={styles.cancel}
               onPress={() => {
                 setModalVisible (!modalVisible);
               }}
             >
-             <Text style={{color : '#000'}} >Cancel</Text>
+              <Text style={styles.titleCancel}>X</Text>
             </TouchableHighlight>
+            <ScrollView>
+              <View style={styles.listKota}>
+                {renderListKota ()}
+              </View>
+            </ScrollView>
           </View>
         </View>
       </Modal>
