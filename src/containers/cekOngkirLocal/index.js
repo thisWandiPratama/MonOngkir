@@ -12,6 +12,7 @@ import {
 import {styles} from '../../styles/_local';
 import Header from '../../components/hedear';
 import {dataKurir} from '../../config/kurir';
+import { primer } from '../../styles/_color';
 
 // create a component
 const Tracking = ({navigation}) => {
@@ -392,6 +393,11 @@ const Tracking = ({navigation}) => {
             </View>
           </View>
         </View>
+      </View>
+      <View style={{alignItems:'center'}}>
+      <TouchableOpacity style={{height: 50, width: '85%', backgroundColor: primer, borderRadius: 5, alignItems:'center', justifyContent:'center'}}>
+        <Text style={{fontSize: 20, color:'#fff', fontWeight:'bold'}}>Search Rates</Text>
+      </TouchableOpacity>
       </View>
     </View>
   );
