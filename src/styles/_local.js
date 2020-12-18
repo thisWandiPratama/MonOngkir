@@ -34,7 +34,7 @@ const styles = StyleSheet.create ({
   },
   boxOrigin: {
     flexDirection: 'row',
-    marginBottom: 10,
+    marginBottom: 15,
   },
   kategori: {
     flexDirection: 'row',
@@ -60,11 +60,12 @@ const styles = StyleSheet.create ({
     fontWeight: 'bold',
   },
   listOrigin: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#fff',
   },
   boxItem: {
+    width: '50%',
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255,255,255,0.5)',
   },
