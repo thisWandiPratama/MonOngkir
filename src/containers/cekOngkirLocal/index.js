@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {styles} from '../../styles/_local';
 import Header from '../../components/hedear';
+import {dataKurir} from '../../config/kurir';
 
 // create a component
 const Tracking = ({navigation}) => {
@@ -30,7 +31,10 @@ const Tracking = ({navigation}) => {
   const [modalKecamatan, setModalKecamatan] = useState (false);
   const [modalKotaTujuan, setModalKotaTujuan] = useState (false);
   const [modalKecamatanTujuan, setModalKecamatanTujuan] = useState (false);
-  const [berat, setBerat] = useState()
+  const [berat, setBerat] = useState ();
+  const [kurir, setKurir] = useState ('');
+  const [kurirValue, setKurirValue] = useState ('');
+  const [ModalKurir, setModalKurir] = useState (false);
 
   useEffect (() => {
     getKota ();
@@ -92,6 +96,23 @@ const Tracking = ({navigation}) => {
     });
   };
 
+  const renderListKurir = () => {
+    return dataKurir.map ((value, index) => {
+      return (
+        <TouchableOpacity
+          key={index}
+          onPress={() => {
+            setKurir (value.title);
+            setKurirValue (value.value);
+            setModalKurir (false);
+          }}
+        >
+          <Text style={styles.namaKota}>{value.title}</Text>
+        </TouchableOpacity>
+      );
+    });
+  };
+
   const getKecamatan = () => {
     fetch (`https://api.rajaongkir.sipondok.com/v1/kecamatan/kota/${kotaID}`)
       .then (result => result.json ())
@@ -105,7 +126,9 @@ const Tracking = ({navigation}) => {
   };
 
   const getKecamatanTujuan = () => {
-    fetch (`https://api.rajaongkir.sipondok.com/v1/kecamatan/kota/${kotaIDTujuan}`)
+    fetch (
+      `https://api.rajaongkir.sipondok.com/v1/kecamatan/kota/${kotaIDTujuan}`
+    )
       .then (result => result.json ())
       .then (result => {
         setAllKecamatanTujuan (result);
@@ -248,6 +271,29 @@ const Tracking = ({navigation}) => {
         </View>
       </Modal>
 
+      <Modal animationType="slide" transparent={true} visible={ModalKurir}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>
+              Pilih Kurir
+            </Text>
+            <TouchableHighlight
+              style={styles.cancel}
+              onPress={() => {
+                setModalKurir (!ModalKurir);
+              }}
+            >
+              <Text style={styles.titleCancel}>X</Text>
+            </TouchableHighlight>
+            <ScrollView>
+              <View style={styles.listKota}>
+                {renderListKurir ()}
+              </View>
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
+
       <Header onPress={onPress} title="Rates Local" />
       <View style={styles.boxContainer}>
         <View style={styles.boxInput}>
@@ -305,7 +351,7 @@ const Tracking = ({navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  getKecamatanTujuan()
+                  getKecamatanTujuan ();
                   setModalKecamatanTujuan (true);
                 }}
                 style={styles.boxItem}
@@ -322,15 +368,28 @@ const Tracking = ({navigation}) => {
           </View>
           <View style={styles.boxList}>
             <Text style={styles.title}>Berat(g)</Text>
-            <TextInput 
-            placeholder="Masukan Berat Paket"
-            onChangeText={(value) => setBerat(value)} 
-            style={styles.input}
-             />
+            <TextInput
+              placeholder="Masukan Berat Paket"
+              onChangeText={value => setBerat (value)}
+              style={styles.input}
+            />
           </View>
           <View style={styles.boxList}>
-            <Text style={styles.title}>Kurir</Text>
-            <TextInput placeholder="Masukan No.Resi" style={styles.input} />
+            <View style={styles.boxOrigin}>
+              <Text style={styles.title}>Kurir</Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity
+                onPress={() => setModalKurir (true)}
+                style={[styles.boxItem,{width:'100%'}]}
+              >
+                <Text style={styles.listOrigin}>
+                  {' '}
+                  {kurir.length === 0 ? 'Pilih Kurir' : kurir}
+                  {' '}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
