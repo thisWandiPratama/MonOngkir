@@ -50,12 +50,12 @@ const Home = ({navigation}) => {
               <Text style={styles.rateTitle}>Rates Local</Text>
             </View>
           </TouchableOpacity>
-          <View style={styles.boxMenu}>
+          <TouchableOpacity onPress={() => navigation.navigate('Global')}  style={styles.boxMenu}>
             <View style={styles.list}>
               <Image source={{uri: rates}} style={styles.icon} />
               <Text style={styles.rateTitle}>Rates Internasonal</Text>
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.conKurs}>
           <View style={styles.titleKurs}>
