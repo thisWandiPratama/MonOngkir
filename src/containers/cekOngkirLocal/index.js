@@ -8,11 +8,12 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {styles} from '../../styles/_local';
 import Header from '../../components/hedear';
 import {dataKurir} from '../../config/kurir';
-import { primer } from '../../styles/_color';
+import {primer} from '../../styles/_color';
 
 // create a component
 const Tracking = ({navigation}) => {
@@ -36,6 +37,7 @@ const Tracking = ({navigation}) => {
   const [kurir, setKurir] = useState ('');
   const [kurirValue, setKurirValue] = useState ('');
   const [ModalKurir, setModalKurir] = useState (false);
+  const [results, setResults] = useState ([]);
 
   useEffect (() => {
     getKota ();
@@ -173,6 +175,15 @@ const Tracking = ({navigation}) => {
         </TouchableOpacity>
       );
     });
+  };
+
+  const searchRates = () => {
+    console.log (kecamatanID, kecamatanIDTujuan, berat, jenisID);
+    if (kecamatanID && kecamatanIDTujuan && berat && jenisID && kurirValue) {
+      navigation.navigate('ResultsLocal',{kecamatanID:kecamatanID, kecamatanIDTujuan: kecamatanIDTujuan, berat: berat, kurirValue: kurirValue, jenisID: jenisID})
+    } else {
+      Alert.alert ('Results', 'Harap Mengisi Semua Data');
+    }
   };
 
   return (
@@ -382,7 +393,7 @@ const Tracking = ({navigation}) => {
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity
                 onPress={() => setModalKurir (true)}
-                style={[styles.boxItem,{width:'100%'}]}
+                style={[styles.boxItem, {width: '100%'}]}
               >
                 <Text style={styles.listOrigin}>
                   {' '}
@@ -394,10 +405,19 @@ const Tracking = ({navigation}) => {
           </View>
         </View>
       </View>
-      <View style={{alignItems:'center'}}>
-      <TouchableOpacity style={{height: 50, width: '85%', backgroundColor: primer, borderRadius: 5, alignItems:'center', justifyContent:'center'}}>
-        <Text style={{fontSize: 20, color:'#fff', fontWeight:'bold'}}>Search Rates</Text>
-      </TouchableOpacity>
+      <View style={{alignItems: 'center'}}>
+        <TouchableOpacity
+          style={styles.btnSearch}
+          onPress={() => searchRates ()}
+        >
+          <Text style={styles.textTitle}>Search Rates</Text>
+        </TouchableOpacity>
+        {results.length == 0
+          ? null
+          : <View style={styles.result}>
+              <Text style={styles.titleResult}>{results.name}</Text>
+              <Text style={styles.valueResult}>Rp. 1600</Text>
+            </View>}
       </View>
     </View>
   );

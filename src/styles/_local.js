@@ -108,12 +108,45 @@ const styles = StyleSheet.create ({
     flex: 1,
     margin: 10,
   },
-  namaKota : {
-    fontWeight : 'bold',
+  namaKota: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    borderBottomColor: '#FFA000',
+    borderBottomWidth: 1,
+    marginBottom: 5,
+  },
+  btnSearch: {
+    height: 50,
+    width: '85%',
+    backgroundColor: primer,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textTitle: {
+    fontSize: 20,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  result : {
+    height: 100,
+    width: '85%',
+    backgroundColor: primer,
+    borderRadius: 5,
+    marginTop : 20
+  },
+  titleResult : {
+    color : '#fff',
     fontSize : 20,
-    borderBottomColor : '#FFA000' ,
-    borderBottomWidth : 1,
-    marginBottom : 5
+    fontWeight : 'bold',
+    paddingLeft : 10
+  },
+  valueResult : {
+    color : '#fff',
+    fontSize : 20,
+    fontWeight : 'bold',
+    paddingTop : 10,
+    textAlign:'center'
   }
 });
 

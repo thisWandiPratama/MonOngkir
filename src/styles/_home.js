@@ -86,6 +86,7 @@ const styles = StyleSheet.create ({
     justifyContent: 'space-between',
     paddingTop: 10,
     paddingBottom: 20,
+    flexDirection : 'row'
   },
   titleKurs: {
     height: 30,
