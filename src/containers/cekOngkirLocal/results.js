@@ -54,28 +54,32 @@ const Results = ({route, navigation}) => {
             shadowOpacity: 0.25,
             shadowRadius: 3.84,
             elevation: 5,
-            margin : 5
+            margin: 5,
           }}
         >
           <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>
             {value.service}
           </Text>
           <Text style={{color: '#fff', fontSize: 10}}>{value.description}</Text>
-          {value.cost.map ((value, index) => {
-            return (
-              <View key={index} style={{padding: 10}}>
-                <Text style={{color: '#fff', fontSize: 14}}>
-                  Rp. {value.value}
-                </Text>
-                <Text style={{color: '#fff', fontSize: 13}}>{value.etd}</Text>
-                {value.note.length == 0
-                  ? null
-                  : <Text style={{color: '#fff', fontSize: 13}}>
-                      {' '}Note : {value.note}
-                    </Text>}
-              </View>
-            );
-          })}
+          <View>
+            {value.cost.map ((value, index) => {
+              return (
+                <View key={index} style={{padding: 10}}>
+                  <Text style={{color: '#fff', fontSize: 14}}>
+                    Rp. {value.value}
+                  </Text>
+                  <Text style={{color: '#fff', fontSize: 13}}>
+                    {value.etd}
+                  </Text>
+                  {value.note.length == 0
+                    ? null
+                    : <Text style={{color: '#fff', fontSize: 13}}>
+                        {' '}Note : {value.note}
+                      </Text>}
+                </View>
+              );
+            })}
+          </View>
         </View>
       );
     });
@@ -94,9 +98,35 @@ const Results = ({route, navigation}) => {
             <Text style={{margin: 10, fontWeight: 'bold', fontSize: 20}}>
               {results[0].name}
             </Text>
-            <View style={{flex: 1, margin: 10, marginTop: 0}}>
-              {renderResults ()}
-            </View>
+            {costs.length == 0
+              ? <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: 'bold',
+                      color: '#FFA000',
+                      shadowColor: '#000',
+                      shadowOffset: {
+                        width: 0,
+                        height: 9,
+                      },
+                      shadowOpacity: 0.50,
+                      shadowRadius: 12.35,
+                      elevation: 19,
+                    }}
+                  >
+                    Tidak Costs
+                  </Text>
+                </View>
+              : <View style={{flex: 1, margin: 10, marginTop: 0}}>
+                  {renderResults ()}
+                </View>}
           </ScrollView>}
     </View>
   );

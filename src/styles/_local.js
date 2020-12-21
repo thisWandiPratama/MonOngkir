@@ -31,6 +31,7 @@ const styles = StyleSheet.create ({
   input: {
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255,255,255,0.5)',
+    color : '#fff'
   },
   boxOrigin: {
     flexDirection: 'row',

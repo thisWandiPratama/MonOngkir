@@ -307,7 +307,7 @@ const Tracking = ({navigation}) => {
       </Modal>
 
       <Header onPress={onPress} title="Rates Local" />
-      <View style={styles.boxContainer}>
+      <ScrollView style={styles.boxContainer}>
         <View style={styles.boxInput}>
           <View style={styles.boxList}>
             <View style={styles.boxOrigin}>
@@ -404,7 +404,7 @@ const Tracking = ({navigation}) => {
             </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
       <View style={{alignItems: 'center'}}>
         <TouchableOpacity
           style={styles.btnSearch}
