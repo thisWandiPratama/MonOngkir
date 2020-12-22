@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import {styles} from '../../styles/_global';
 import Header from '../../components/hedear';
@@ -30,6 +31,7 @@ const Tracking = ({navigation}) => {
   const [kurirValue, setKurirValue] = useState ('');
   const [ModalKurir, setModalKurir] = useState (false);
   const [results, setResults] = useState ([]);
+  const [loading, setLoading] = useState (false);
 
   useEffect (() => {
     getProvinsi ();
@@ -42,6 +44,7 @@ const Tracking = ({navigation}) => {
   };
 
   const getProvinsi = () => {
+    setLoading (true);
     fetch ('https://api.rajaongkir.sipondok.com/v1/kota')
       .then (result => result.json ())
       .then (result => {
@@ -61,8 +64,12 @@ const Tracking = ({navigation}) => {
         setNegaraTujuan (result[0].country_name);
         setNegaraIDTujuan (result[0].country_id);
         console.log (result);
+        setLoading (false);
       })
-      .catch (error => console.log (error));
+      .catch (error => {
+        setLoading (false);
+        console.log (error);
+      });
   };
 
   const renderListProvinsi = () => {
@@ -205,82 +212,95 @@ const Tracking = ({navigation}) => {
       </Modal>
 
       <Header onPress={onPress} title="Rates Internasional" />
-      <ScrollView style={styles.boxContainer}>
-        <View style={styles.boxInput}>
-          <View style={styles.boxList}>
-            <View style={styles.boxOrigin}>
-              <Text style={styles.title}>Origin</Text>
-            </View>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                onPress={() => {
-                  if (allProvinsi.length === 0) {
-                    getProvinsi ();
-                  }
-                  setModalProvinsi (true);
-                }}
-                style={styles.boxItem}
-              >
-                <Text style={styles.listOrigin}>
-                  {' '}
-                  {Kota.length === 0 ? 'Pilih Provinsi' : Kota}
-                  {' '}
-                </Text>
-              </TouchableOpacity>
-            </View>
+      {loading == true
+        ? <View
+            style={[
+              styles.container,
+              {alignItems: 'center', justifyContent: 'center'},
+            ]}
+          >
+            <ActivityIndicator size="large" color={primer} />
           </View>
-          <View style={styles.boxList}>
-            <View style={styles.boxOrigin}>
-              <Text style={styles.title}>Destination</Text>
+        : <ScrollView style={styles.boxContainer}>
+            <View style={styles.boxInput}>
+              <View style={styles.boxList}>
+                <View style={styles.boxOrigin}>
+                  <Text style={styles.title}>Origin</Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      if (allProvinsi.length === 0) {
+                        getProvinsi ();
+                      }
+                      setModalProvinsi (true);
+                    }}
+                    style={styles.boxItem}
+                  >
+                    <Text style={styles.listOrigin}>
+                      {' '}
+                      {Kota.length === 0 ? 'Pilih Provinsi' : Kota}
+                      {' '}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View style={styles.boxList}>
+                <View style={styles.boxOrigin}>
+                  <Text style={styles.title}>Destination</Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity
+                    onPress={() => setModalNegaraTujuan (true)}
+                    style={styles.boxItem}
+                  >
+                    <Text style={styles.listOrigin}>
+                      {' '}
+                      {NegaraTujuan.length === 0
+                        ? 'Pilih Negera'
+                        : NegaraTujuan}
+                      {' '}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View style={styles.boxList}>
+                <Text style={styles.title}>Berat(g)</Text>
+                <TextInput
+                  placeholder="Masukan Berat Paket"
+                  onChangeText={value => setBerat (value)}
+                  style={styles.input}
+                />
+              </View>
+              <View style={styles.boxList}>
+                <View style={styles.boxOrigin}>
+                  <Text style={styles.title}>Kurir</Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity
+                    onPress={() => setModalKurir (true)}
+                    style={[styles.boxItem, {width: '100%'}]}
+                  >
+                    <Text style={styles.listOrigin}>
+                      {' '}
+                      {kurir.length === 0 ? 'Pilih Kurir' : kurir}
+                      {' '}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                onPress={() => setModalNegaraTujuan (true)}
-                style={styles.boxItem}
-              >
-                <Text style={styles.listOrigin}>
-                  {' '}
-                  {NegaraTujuan.length === 0 ? 'Pilih Negera' : NegaraTujuan}
-                  {' '}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.boxList}>
-            <Text style={styles.title}>Berat(g)</Text>
-            <TextInput
-              placeholder="Masukan Berat Paket"
-              onChangeText={value => setBerat (value)}
-              style={styles.input}
-            />
-          </View>
-          <View style={styles.boxList}>
-            <View style={styles.boxOrigin}>
-              <Text style={styles.title}>Kurir</Text>
-            </View>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                onPress={() => setModalKurir (true)}
-                style={[styles.boxItem, {width: '100%'}]}
-              >
-                <Text style={styles.listOrigin}>
-                  {' '}
-                  {kurir.length === 0 ? 'Pilih Kurir' : kurir}
-                  {' '}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </ScrollView>
-      <View style={{alignItems: 'center', marginBottom : 20}}>
-        <TouchableOpacity
-          style={styles.btnSearch}
-          onPress={() => searchRates ()}
-        >
-          <Text style={styles.textTitle}>Search Rates</Text>
-        </TouchableOpacity>
-      </View>
+          </ScrollView>}
+      {loading == true
+        ? null
+        : <View style={{alignItems: 'center', marginBottom: 20}}>
+            <TouchableOpacity
+              style={styles.btnSearch}
+              onPress={() => searchRates ()}
+            >
+              <Text style={styles.textTitle}>Search Rates</Text>
+            </TouchableOpacity>
+          </View>}
     </View>
   );
 };
