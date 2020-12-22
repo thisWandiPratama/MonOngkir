@@ -42,11 +42,6 @@ const Tracking = ({navigation}) => {
 
   useEffect (() => {
     getKota ();
-    setTimeout (() => {
-      if (allKota.length > 0) {
-        getKecamatan ();
-      }
-    }, 3000);
   }, []);
 
   const onPress = () => {
@@ -63,8 +58,14 @@ const Tracking = ({navigation}) => {
         setKota (result[0].city_name);
         setkotaID (result[0].city_id);
         console.log (result);
+        setTimeout (() => {
+          getKecamatan ();
+        }, 1000);
       })
-      .catch (error => console.log (error));
+      .catch (error => {
+        setLoading (false);
+        console.log (error);
+      });
   };
 
   const renderListKota = () => {
@@ -214,11 +215,15 @@ const Tracking = ({navigation}) => {
             >
               <Text style={styles.titleCancel}>X</Text>
             </TouchableHighlight>
-            <ScrollView>
-              <View style={styles.listKota}>
-                {renderListKota ()}
-              </View>
-            </ScrollView>
+            {loading == true
+              ? <View>
+                  <ActivityIndicator size="large" color={primer} />
+                </View>
+              : <ScrollView>
+                  <View style={styles.listKota}>
+                    {renderListKota ()}
+                  </View>
+                </ScrollView>}
           </View>
         </View>
       </Modal>
@@ -320,8 +325,13 @@ const Tracking = ({navigation}) => {
 
       <Header onPress={onPress} title="Rates Local" />
       {loading == true
-        ? <View style={[styles.container, {alignItems:'center', justifyContent:'center'}]}>
-            <ActivityIndicator size='large' color = {primer} />
+        ? <View
+            style={[
+              styles.container,
+              {alignItems: 'center', justifyContent: 'center'},
+            ]}
+          >
+            <ActivityIndicator size="large" color={primer} />
           </View>
         : <ScrollView style={styles.boxContainer}>
             <View style={styles.boxInput}>
