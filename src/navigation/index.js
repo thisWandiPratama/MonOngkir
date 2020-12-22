@@ -7,6 +7,7 @@ import Local from '../containers/cekOngkirLocal'
 import Global from '../containers/cekOngkirGlobal'
 import Tracking from '../containers/tracking'
 import ResultsLocal from '../containers/cekOngkirLocal/results' 
+import ResultsGlobal from '../containers/cekOngkirGlobal/results' 
 
 const Stack = createStackNavigator()
 
@@ -19,6 +20,7 @@ const Stacks = () => {
                 <Stack.Screen name = "Global" component={Global}/>
                 <Stack.Screen name = "Tracking" component={Tracking}/>
                 <Stack.Screen name = "ResultsLocal" component={ResultsLocal}/>
+                <Stack.Screen name = "ResultsGlobal" component={ResultsGlobal}/>
             </Stack.Navigator>
         </NavigationContainer>
     )

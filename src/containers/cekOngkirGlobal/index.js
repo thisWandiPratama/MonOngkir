@@ -17,22 +17,14 @@ import {primer} from '../../styles/_color';
 
 // create a component
 const Tracking = ({navigation}) => {
-  const [Kota, setKota] = useState ('');
-  const [kotaID, setkotaID] = useState ();
-  const [KotaTujuan, setKotaTujuan] = useState ('');
-  const [kotaIDTujuan, setkotaIDTujuan] = useState ();
-  const [jenisID, setJenisID] = useState ();
-  const [kecamatan, setKecamatan] = useState ([]);
-  const [kecamatanID, setKecamatanID] = useState ();
-  const [kecamatanTujuan, setKecamatanTujuan] = useState ('');
-  const [kecamatanIDTujuan, setKecamatanIDTujuan] = useState ();
-  const [allKota, setAllKota] = useState ([]);
-  const [allKecamatan, setAllKecamatan] = useState ([]);
-  const [allKecamatanTujuan, setAllKecamatanTujuan] = useState ([]);
-  const [modalKota, setModalKota] = useState (false);
-  const [modalKecamatan, setModalKecamatan] = useState (false);
-  const [modalKotaTujuan, setModalKotaTujuan] = useState (false);
-  const [modalKecamatanTujuan, setModalKecamatanTujuan] = useState (false);
+  const [Kota, setProvinsi] = useState ('');
+  const [ProvinsiID, setProvinsiID] = useState ();
+  const [NegaraTujuan, setNegaraTujuan] = useState ('');
+  const [NegaraIDTujuan, setNegaraIDTujuan] = useState ();
+  const [allProvinsi, setAllProvinsi] = useState ([]);
+  const [allNegara, setAllNegara] = useState ([]);
+  const [modalProvinsi, setModalProvinsi] = useState (false);
+  const [modalNegaraTujuan, setModalNegaraTujuan] = useState (false);
   const [berat, setBerat] = useState ();
   const [kurir, setKurir] = useState ('');
   const [kurirValue, setKurirValue] = useState ('');
@@ -40,12 +32,8 @@ const Tracking = ({navigation}) => {
   const [results, setResults] = useState ([]);
 
   useEffect (() => {
-    getKota ();
-    setTimeout (() => {
-      if (allKota.length > 0) {
-        getKecamatan ();
-      }
-    }, 3000);
+    getProvinsi ();
+    getNegara ();
   }, []);
 
   const onPress = () => {
@@ -53,27 +41,39 @@ const Tracking = ({navigation}) => {
     console.log ('Res');
   };
 
-  const getKota = () => {
+  const getProvinsi = () => {
     fetch ('https://api.rajaongkir.sipondok.com/v1/kota')
       .then (result => result.json ())
       .then (result => {
-        setAllKota (result);
-        setKota (result[0].province);
-        setkotaID (result[0].province_id);
+        setAllProvinsi (result);
+        setProvinsi (result[0].province);
+        setProvinsiID (result[0].province_id);
         console.log (result);
       })
       .catch (error => console.log (error));
   };
 
-  const renderListKota = () => {
-    return allKota.map ((value, index) => {
+  const getNegara = () => {
+    fetch ('https://api.rajaongkir.sipondok.com/v1/intern/ke/semua')
+      .then (result => result.json ())
+      .then (result => {
+        setAllNegara (result);
+        setNegaraTujuan (result[0].country_name);
+        setNegaraIDTujuan (result[0].country_id);
+        console.log (result);
+      })
+      .catch (error => console.log (error));
+  };
+
+  const renderListProvinsi = () => {
+    return allProvinsi.map ((value, index) => {
       return (
         <TouchableOpacity
           key={index}
           onPress={() => {
-            setKota (value.province);
-            setkotaID (value.province_id);
-            setModalKota (false);
+            setProvinsi (value.province);
+            setProvinsiID (value.province_id);
+            setModalProvinsi (false);
           }}
         >
           <Text style={styles.namaKota}>{value.province}</Text>
@@ -82,18 +82,18 @@ const Tracking = ({navigation}) => {
     });
   };
 
-  const renderListKotaTujuan = () => {
-    return allKota.map ((value, index) => {
+  const renderListNegaraTujuan = () => {
+    return allNegara.map ((value, index) => {
       return (
         <TouchableOpacity
           key={index}
           onPress={() => {
-            setKotaTujuan (value.province);
-            setkotaIDTujuan (value.province_id);
-            setModalKotaTujuan (false);
+            setNegaraTujuan (value.country_name);
+            setNegaraIDTujuan (value.country_id);
+            setModalNegaraTujuan (false);
           }}
         >
-          <Text style={styles.namaKota}>{value.province}</Text>
+          <Text style={styles.namaKota}>{value.country_name}</Text>
         </TouchableOpacity>
       );
     });
@@ -116,71 +116,15 @@ const Tracking = ({navigation}) => {
     });
   };
 
-  const getKecamatan = () => {
-    fetch (`https://api.rajaongkir.sipondok.com/v1/kecamatan/kota/${kotaID}`)
-      .then (result => result.json ())
-      .then (result => {
-        setAllKecamatan (result);
-        setKecamatan (result[0].subdistrict_name);
-        setKecamatanID (result[0].subdistrict_id);
-        console.log (result);
-      })
-      .catch (error => console.log (error));
-  };
-
-  const getKecamatanTujuan = () => {
-    fetch (
-      `https://api.rajaongkir.sipondok.com/v1/kecamatan/kota/${kotaIDTujuan}`
-    )
-      .then (result => result.json ())
-      .then (result => {
-        setAllKecamatanTujuan (result);
-        setKecamatanTujuan (result[0].subdistrict_name);
-        setKecamatanIDTujuan (result[0].subdistrict_id);
-        console.log (result);
-      })
-      .catch (error => console.log (error));
-  };
-
-  const renderListKecamatan = () => {
-    return allKecamatan.map ((value, index) => {
-      return (
-        <TouchableOpacity
-          key={index}
-          onPress={() => {
-            setKecamatan (value.subdistrict_name);
-            setKecamatanID (value.subdistrict_id);
-            setModalKecamatan (false);
-          }}
-        >
-          <Text style={styles.namaKota}>{value.subdistrict_name}</Text>
-        </TouchableOpacity>
-      );
-    });
-  };
-
-  const renderListKecamatanTujuan = () => {
-    return allKecamatanTujuan.map ((value, index) => {
-      return (
-        <TouchableOpacity
-          key={index}
-          onPress={() => {
-            setKecamatanTujuan (value.subdistrict_name);
-            setKecamatanIDTujuan (value.subdistrict_id);
-            setJenisID ('kecamatan');
-            setModalKecamatanTujuan (false);
-          }}
-        >
-          <Text style={styles.namaKota}>{value.subdistrict_name}</Text>
-        </TouchableOpacity>
-      );
-    });
-  };
-
   const searchRates = () => {
-    console.log (kecamatanID, kecamatanIDTujuan, berat, jenisID);
-    if (kecamatanID && kecamatanIDTujuan && berat && jenisID && kurirValue) {
-      navigation.navigate('ResultsLocal',{kecamatanID:kecamatanID, kecamatanIDTujuan: kecamatanIDTujuan, berat: berat, kurirValue: kurirValue, jenisID: jenisID})
+    console.log (ProvinsiID, NegaraIDTujuan, berat, kurirValue);
+    if (ProvinsiID && NegaraIDTujuan && berat && kurirValue) {
+      navigation.navigate ('ResultsGlobal', {
+        ProvinsiID: ProvinsiID,
+        NegaraIDTujuan: NegaraIDTujuan,
+        berat: berat,
+        kurirValue: kurirValue,
+      });
     } else {
       Alert.alert ('Results', 'Harap Mengisi Semua Data');
     }
@@ -188,7 +132,7 @@ const Tracking = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Modal animationType="slide" transparent={true} visible={modalKota}>
+      <Modal animationType="slide" transparent={true} visible={modalProvinsi}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>
@@ -197,43 +141,24 @@ const Tracking = ({navigation}) => {
             <TouchableHighlight
               style={styles.cancel}
               onPress={() => {
-                setModalKota (!modalKota);
+                setModalProvinsi (!modalProvinsi);
               }}
             >
               <Text style={styles.titleCancel}>X</Text>
             </TouchableHighlight>
             <ScrollView>
               <View style={styles.listKota}>
-                {renderListKota ()}
+                {renderListProvinsi ()}
               </View>
             </ScrollView>
           </View>
         </View>
       </Modal>
-      <Modal animationType="slide" transparent={true} visible={modalKecamatan}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>
-              Pilih Kecamatan Anda
-            </Text>
-            <TouchableHighlight
-              style={styles.cancel}
-              onPress={() => {
-                setModalKecamatan (!modalKecamatan);
-              }}
-            >
-              <Text style={styles.titleCancel}>X</Text>
-            </TouchableHighlight>
-            <ScrollView>
-              <View style={styles.listKota}>
-                {renderListKecamatan ()}
-              </View>
-            </ScrollView>
-          </View>
-        </View>
-      </Modal>
-
-      <Modal animationType="slide" transparent={true} visible={modalKotaTujuan}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalNegaraTujuan}
+      >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>
@@ -242,41 +167,14 @@ const Tracking = ({navigation}) => {
             <TouchableHighlight
               style={styles.cancel}
               onPress={() => {
-                setModalKotaTujuan (!modalKotaTujuan);
+                setModalNegaraTujuan (!modalNegaraTujuan);
               }}
             >
               <Text style={styles.titleCancel}>X</Text>
             </TouchableHighlight>
             <ScrollView>
               <View style={styles.listKota}>
-                {renderListKotaTujuan ()}
-              </View>
-            </ScrollView>
-          </View>
-        </View>
-      </Modal>
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalKecamatanTujuan}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>
-              Pilih Kecamatan Tujuan Anda
-            </Text>
-            <TouchableHighlight
-              style={styles.cancel}
-              onPress={() => {
-                setModalKecamatanTujuan (!modalKecamatanTujuan);
-              }}
-            >
-              <Text style={styles.titleCancel}>X</Text>
-            </TouchableHighlight>
-            <ScrollView>
-              <View style={styles.listKota}>
-                {renderListKecamatanTujuan ()}
+                {renderListNegaraTujuan ()}
               </View>
             </ScrollView>
           </View>
@@ -316,10 +214,10 @@ const Tracking = ({navigation}) => {
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity
                 onPress={() => {
-                  if (allKota.length === 0) {
-                    getKota ();
+                  if (allProvinsi.length === 0) {
+                    getProvinsi ();
                   }
-                  setModalKota (true);
+                  setModalProvinsi (true);
                 }}
                 style={styles.boxItem}
               >
@@ -337,27 +235,12 @@ const Tracking = ({navigation}) => {
             </View>
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity
-                onPress={() => setModalKotaTujuan (true)}
+                onPress={() => setModalNegaraTujuan (true)}
                 style={styles.boxItem}
               >
                 <Text style={styles.listOrigin}>
                   {' '}
-                  {KotaTujuan.length === 0 ? 'Pilih Kota' : KotaTujuan}
-                  {' '}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  getKecamatanTujuan ();
-                  setModalKecamatanTujuan (true);
-                }}
-                style={styles.boxItem}
-              >
-                <Text style={styles.listOrigin}>
-                  {' '}
-                  {kecamatanTujuan.length === 0
-                    ? 'Pilih Kecamatan'
-                    : kecamatanTujuan}
+                  {NegaraTujuan.length === 0 ? 'Pilih Negera' : NegaraTujuan}
                   {' '}
                 </Text>
               </TouchableOpacity>
@@ -390,7 +273,7 @@ const Tracking = ({navigation}) => {
           </View>
         </View>
       </ScrollView>
-      <View style={{alignItems: 'center'}}>
+      <View style={{alignItems: 'center', marginBottom : 20}}>
         <TouchableOpacity
           style={styles.btnSearch}
           onPress={() => searchRates ()}

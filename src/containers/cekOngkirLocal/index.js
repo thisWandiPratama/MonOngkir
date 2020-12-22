@@ -180,7 +180,13 @@ const Tracking = ({navigation}) => {
   const searchRates = () => {
     console.log (kecamatanID, kecamatanIDTujuan, berat, jenisID);
     if (kecamatanID && kecamatanIDTujuan && berat && jenisID && kurirValue) {
-      navigation.navigate('ResultsLocal',{kecamatanID:kecamatanID, kecamatanIDTujuan: kecamatanIDTujuan, berat: berat, kurirValue: kurirValue, jenisID: jenisID})
+      navigation.navigate ('ResultsLocal', {
+        kecamatanID: kecamatanID,
+        kecamatanIDTujuan: kecamatanIDTujuan,
+        berat: berat,
+        kurirValue: kurirValue,
+        jenisID: jenisID,
+      });
     } else {
       Alert.alert ('Results', 'Harap Mengisi Semua Data');
     }
@@ -405,7 +411,7 @@ const Tracking = ({navigation}) => {
           </View>
         </View>
       </ScrollView>
-      <View style={{alignItems: 'center'}}>
+      <View style={{alignItems: 'center', marginBottom: 20}}>
         <TouchableOpacity
           style={styles.btnSearch}
           onPress={() => searchRates ()}
