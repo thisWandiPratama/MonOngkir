@@ -280,12 +280,6 @@ const Tracking = ({navigation}) => {
         >
           <Text style={styles.textTitle}>Search Rates</Text>
         </TouchableOpacity>
-        {results.length == 0
-          ? null
-          : <View style={styles.result}>
-              <Text style={styles.titleResult}>{results.name}</Text>
-              <Text style={styles.valueResult}>Rp. 1600</Text>
-            </View>}
       </View>
     </View>
   );
