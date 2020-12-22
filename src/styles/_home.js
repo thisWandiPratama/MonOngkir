@@ -122,7 +122,8 @@ const styles = StyleSheet.create ({
   },
   kurs : {
       color : '#fff',
-      fontWeight : 'bold'
+      fontWeight : 'bold',
+      textAlign : 'center'
   }
 });
 
