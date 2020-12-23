@@ -4,21 +4,26 @@ import {View, Text, StatusBar, Image, TouchableOpacity} from 'react-native';
 import {styles} from '../../styles/_home';
 import {primer} from '../../styles/_color';
 import {truck, tracking, rates} from '../../assets';
+import {SliderBox} from 'react-native-image-slider-box';
 
 // create a component
 const Home = ({navigation}) => {
-    const [kurs, setKurs] = useState('')
+  const [kurs, setKurs] = useState ('');
 
-    useEffect(() => {
-        getKurs()
-    },[])
+  useEffect (() => {
+    getKurs ();
+  }, []);
 
-    const getKurs = () => {
-        fetch('https://api.rajaongkir.sipondok.com/v1/kurs')
-        .then(result => result.json())
-        .then(result => setKurs(result.value))
-        
-    }
+  const getKurs = () => {
+    fetch ('https://api.rajaongkir.sipondok.com/v1/kurs')
+      .then (result => result.json ())
+      .then (result => setKurs (result.value));
+  };
+
+  const images = [
+    'https://i.ibb.co/ZLPtsz9/Group-7-1.png',
+    'https://i.ibb.co/G0KvnbB/Group-7.png',
+  ];
 
   return (
     <View style={styles.container}>
@@ -37,20 +42,30 @@ const Home = ({navigation}) => {
         </View>
       </View>
       <View style={styles.container}>
+        <SliderBox images={images} />
         <View style={styles.conContent}>
-          <TouchableOpacity onPress={() => navigation.navigate('Tracking')} style={styles.boxMenu}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate ('Tracking')}
+            style={styles.boxMenu}
+          >
             <View style={styles.list}>
               <Image source={{uri: tracking}} style={styles.icon} />
               <Text style={styles.rateTitle}>Tracking</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Local')} style={styles.boxMenu}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate ('Local')}
+            style={styles.boxMenu}
+          >
             <View style={styles.list}>
               <Image source={{uri: rates}} style={styles.icon} />
               <Text style={styles.rateTitle}>Rates Local</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Global')}  style={styles.boxMenu}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate ('Global')}
+            style={styles.boxMenu}
+          >
             <View style={styles.list}>
               <Image source={{uri: rates}} style={styles.icon} />
               <Text style={styles.rateTitle}>Rates Internasonal</Text>

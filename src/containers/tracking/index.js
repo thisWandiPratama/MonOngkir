@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {styles} from '../../styles/_tracking';
 import Header from '../../components/hedear';
@@ -40,6 +41,10 @@ const Tracking = ({navigation}) => {
       );
     });
   };
+
+  const searchRates = () => {
+    Alert.alert('Cooming Soon', 'Fitur Sedang Di Perbaiki')
+  }
 
   return (
     <View style={styles.container}>
